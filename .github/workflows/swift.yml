@@ -1,33 +1,27 @@
-name: Swift CI
+#name of your config
+name: Swift
 
-on:
+#when to trigger the jobs
+on: 
   push:
-    branches: [ "main" ]
+    branches: [ main ] #trigger on each push to master
   pull_request:
-    branches: [ "main" ]
+    branches: [ main ] #trigger on each PR for master
 
+#list of jobs to perform
 jobs:
-  build:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
+  #the only job in the list, named `build`
+  build: 
+    #specify OS to run the jobs on
+    runs-on: macos-latest 
+    #sequential steps to run for the `build` job
+    steps: 
+      # step 1, use Marketplace action called Checkout@v2, to checkout the code
+    - uses: actions/checkout@v2 #'uses' keyword launches the Marketplace action
+      # step 2, verbosely build the package using the `swift` CLI
+    - name: Build
+      run: swift build -v #'run' keyword executes the command, as if it's run in terminal
+      # step 3, verbosely test the package using the `swift` CLI
+    - name: Run tests
+      run: swift test -v #'run' keyword executes the command, as if it's run in terminal
 
-      # Option A: Using a community action to set up Swift
-      #- name: Setup Swift
-      #  uses: fwal/setup-swift@v1
-      #  with:
-      #    swift-version: '5.7'  # or whatever exact version you need, e.g. "5.8"
-
-      # Option B: Apple's official swift toolchain action (experimental):
-      - name: Install Swift toolchain
-        uses: apple/actions/swift-toolchain@v1
-        with:
-           swift-version: '5.8'
-
-      - name: Verify Swift version
-        run: swift --version
-
-      - name: Build and Test
-        run: |
-          swift build --configuration debug
-          swift test
