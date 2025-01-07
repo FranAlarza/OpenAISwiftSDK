@@ -1,4 +1,4 @@
-name: Swift
+name: Swift CI
 
 on:
   push:
@@ -12,10 +12,22 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      # Option A: Using a community action to set up Swift
       - name: Setup Swift
         uses: fwal/setup-swift@v1
         with:
-          swift-version: '5.5'  # Adjust your Swift version
+          swift-version: '5.7'  # or whatever exact version you need, e.g. "5.8"
+
+      # Option B: Apple's official swift toolchain action (experimental):
+      # - name: Install Swift toolchain
+      #   uses: apple/actions/swift-toolchain@v1
+      #   with:
+      #     swift-version: '5.8'
+
+      - name: Verify Swift version
+        run: swift --version
 
       - name: Build and Test
-        run: swift test
+        run: |
+          swift build --configuration debug
+          swift test
