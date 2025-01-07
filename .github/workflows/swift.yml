@@ -13,7 +13,7 @@ jobs:
   #the only job in the list, named `build`
   build: 
     #specify OS to run the jobs on
-    runs-on: macos-latest 
+    runs-on: macos-15 
     #sequential steps to run for the `build` job
     steps: 
       # step 1, use Marketplace action called Checkout@v2, to checkout the code
